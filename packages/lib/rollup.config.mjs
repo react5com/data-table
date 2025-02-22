@@ -54,7 +54,7 @@ export default [
         skipPreflightCheck: true
       }),
       bundleSass({scssOnly: false}),
-      production && terser(),
+      //production && terser(),
     ],
     watch: {
       paths: pathsToWatch

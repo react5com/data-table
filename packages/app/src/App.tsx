@@ -1,10 +1,9 @@
 import './App.css'
-import { type Column, DataTable } from '@react5/lib'
 import '@react5/lib/dist/index.css'
 import { useTranslation } from 'react-i18next'
 import { translationNs } from './i18n/ns'
 import { useState } from 'react'
-
+import { type Column, DataTable } from '@react5/lib'
 type User = {
   id: number;
   name: string;
@@ -35,7 +34,7 @@ function App() {
     <>
       <h1>{t('app.title')}</h1>
       <div className='table-container'>
-      <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
+        <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>
     </>
   )
