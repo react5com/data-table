@@ -1,0 +1,64 @@
+.r5dt-checkbox {
+  display: flex;
+  align-items: center;
+  position: relative;
+  margin: .5em 1em .5em .5em;
+  //padding-left: 2em;
+  cursor: pointer;
+  user-select: none;
+
+  &__label {
+    color: $page_text_color;
+    padding-left: 10px;
+  }
+  &__input {
+    opacity: 0;
+    //visibility: hidden;
+    position: absolute;
+    color: $control_text_color;
+    background-color: $control_bg_color;
+  }
+
+  &__checkmark {
+    //position: relative;
+    //top: 0;
+    //left: 0;
+    display: inline-block;
+    height: 20px;
+    width: 20px;
+    background-color: transparent;
+    border: 1px solid $primary_border_color;
+  }
+
+  &:hover &__checkmark {
+    background-color: $primary_bg_color_highlight;
+  }
+
+  &__input:checked ~ &__checkmark {
+    background-color: $primary_bg_color;
+  }
+  &__input:focus ~ &__checkmark {
+    //background-color: $primary_bg_color;
+    border-width: 2px;
+  }
+
+  &__checkmark::after {
+    content: "";
+    position: absolute;
+    display: none;
+  }
+
+  &__input:checked ~ &__checkmark::after {
+    display: block;
+  }
+
+  &__checkmark::after {
+    top: 4px;
+    left: 7px;
+    width: 7px;
+    height: 12px;
+    border: solid $primary_text_color;
+    border-width: 0 3px 3px 0;
+    transform: rotate(45deg);
+  }
+}

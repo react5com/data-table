@@ -1,14 +1,14 @@
 {
-  "name": "@react5/ui-library-template",
-  "version": "1.0.0",
+  "name": "@react5/data-table",
+  "version": "0.4.1",
   "description": "A template of a React UI library with a test app. It uses a monorepo structure.",
-  "homepage": "https://github.com/react5com/ui-library-template#readme",
+  "homepage": "https://github.com/react5com/data-table#readme",
   "bugs": {
-    "url": "https://github.com/react5com/ui-library-template/issues"
+    "url": "https://github.com/react5com/data-table/issues"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react5com/ui-library-template.git"
+    "url": "git+https://github.com/react5com/data-table.git"
   },
   "workspaces": [
     "packages/lib",

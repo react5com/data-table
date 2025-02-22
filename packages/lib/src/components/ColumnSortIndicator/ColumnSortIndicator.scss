@@ -1,0 +1,13 @@
+.r5dt-column-sort-indicator {
+  display: inline-block;
+  margin-left: 8px;
+  width: 12px;
+  vertical-align: middle;
+  &__icon {
+    color: $page_text_color;
+    &--desc {
+      transform: rotate(180deg);
+    }
+  }
+
+}

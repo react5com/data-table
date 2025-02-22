@@ -9,7 +9,7 @@
   "style": "dist/index.css",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/react5/ui-library-template.git"
+    "url": "git+https://github.com/react5/data-table.git"
   },
   "author": "React5.com",
   "license": "MIT",
