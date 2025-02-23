@@ -5,9 +5,10 @@ test('find checkbox and press', async ({ page }) => {
 
   // Locate the "select all" checkbox
   const selectAllCheckbox = page.locator('#select-all');
-  (await page.waitForSelector('#select-all', { state: 'visible', timeout: 40000 })).click;
+  (
+    await page.waitForSelector('#select-all', { state: 'visible', timeout: 40000 })).click;
   
-  await selectAllCheckbox.waitFor({ state: 'visible', timeout: 40000 });
+    await selectAllCheckbox.waitFor({ state: 'visible', timeout: 40000 });
   
   // Find all other checkboxes
   const checkboxes = page.getByRole('checkbox').filter({ hasNot: page.locator('#select-all') });
@@ -36,3 +37,22 @@ test('find checkbox and press', async ({ page }) => {
   console.log('Verified toggle behavior for', checkboxCount, 'checkboxes');
  
 });
+
+
+test('click element "Name" and sort', async ({ page }) => {
+  await page.goto('/');
+
+  await page.locator('th', { hasText: 'Name' }).first().click();
+
+  
+  // Get the lines after sorting
+  const rows = await page.locator('table tbody tr td:nth-child(1)').allTextContents();
+
+  // Sort the strings and check that they are sorted
+  const sortedRows = [...rows].sort((a, b) => a.localeCompare(b));
+
+  // Checking that the lines are sorted
+  expect(rows).toEqual(sortedRows);
+});
+
+  
