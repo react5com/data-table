@@ -22,19 +22,20 @@ type TableHeaderProps<T> = {
   onSort?: (key: keyof T) => void;
   onSelectAll?: (doSelect: boolean) => void;
   sortKey?: ISortKey<T> | null;
+  selectable?: boolean;
 };
 
 const b = bem("table-header");
-export function TableHeader<T>({ columns, onSort, onSelectAll, sortKey }: TableHeaderProps<T>) {
+export function TableHeader<T>({ columns, onSort, onSelectAll, sortKey, selectable }: TableHeaderProps<T>) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSelectAll?.(e.target.checked);
   }
   return (
     <thead>
       <tr className={b()}>
-        <th className={b("checkbox-cell")}>
+        {selectable && <th className={b("checkbox-cell")}>
           <CheckBox name="select-all" onChange={handleChange} />
-        </th>
+        </th>}
         {columns.map((column) => (
           <th
             key={String(column.key)}

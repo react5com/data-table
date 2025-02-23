@@ -33,6 +33,12 @@ function App() {
   return (
     <>
       <h1>{t('app.title')}</h1>
+      <h2>With selection</h2>
+      <div className='table-container'>
+        <DataTable selectable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
+      </div>
+
+      <h2>Without selection</h2>
       <div className='table-container'>
         <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>

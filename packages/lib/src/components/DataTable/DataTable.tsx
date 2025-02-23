@@ -28,11 +28,12 @@ type DataTableProps<T> = {
   data: T[];
   columns: Column<T>[];
   className?: string;
+  selectable?: boolean;
   onSelectionChange?: (selectedItems: T[]) => void;
 };
 
 const b = bem("data-table");
-export function DataTable<T extends { id?: string | number }>({ data, columns, className, onSelectionChange }: DataTableProps<T>) {
+export function DataTable<T extends { id?: string | number }>({ data, columns, className, selectable=false, onSelectionChange }: DataTableProps<T>) {
   const { t } = useTranslation(translationNs);
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
   const [sortKey, setSortKey] = useState<ISortKey<T> | null>(null);
@@ -69,13 +70,13 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
   return (
     <div className={clsx(b(), className)}>
       <table className={b("table")}>
-        <TableHeader columns={columns} onSort={handleSort} onSelectAll={handleSelectAll} sortKey={sortKey} />
+        <TableHeader selectable={selectable} columns={columns} onSort={handleSort} onSelectAll={handleSelectAll} sortKey={sortKey} />
         <tbody>
           {sortedItems.map((item, rowIndex) => (
             <TableRow key={rowIndex}>
-              <TableCell>
+              {selectable && <TableCell>
                 <CheckBox name={`select-${item.id}`} checked={!!item.id && selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
-              </TableCell>
+              </TableCell>}
               {columns.map((column) => (
                 <TableCell key={String(column.key)}>
                   {column.render ? column.render(item) : (item[column.key] as ReactNode)}
