@@ -55,4 +55,21 @@ test('click element "Name" and sort', async ({ page }) => {
   expect(rows).toEqual(sortedRows);
 });
 
+test('click element "Age" and sort', async ({ page }) => {
+  await page.goto('/');
+
+  // Click "Age"
+  await page.locator('th', { hasText: 'Age' }).first().click();
+
+  // Get the lines after sortin
+  const rows = await page.locator('table tbody tr td:nth-child(1)').allTextContents();
+
+  // Sort rows like numbers
+  const sortedRows = [...rows].sort((a, b) => {
+    return parseFloat(a) - parseFloat(b); // transform in number
+  });
+
+  // Chech, that the lines are sorted in ascending order
+  expect(rows).toEqual(sortedRows);
+});
   
