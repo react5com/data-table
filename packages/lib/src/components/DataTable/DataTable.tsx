@@ -32,9 +32,9 @@ type DataTableProps<T> = {
 };
 
 const b = bem("data-table");
-export function DataTable<T extends { id: number }>({ data, columns, className, onSelectionChange }: DataTableProps<T>) {
+export function DataTable<T extends { id?: string | number }>({ data, columns, className, onSelectionChange }: DataTableProps<T>) {
   const { t } = useTranslation(translationNs);
-  const [selectedItems, setSelectedItems] = useState<number[]>([]);
+  const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
   const [sortKey, setSortKey] = useState<ISortKey<T> | null>(null);
 
   const sortedItems = useMemo(() => {
@@ -44,20 +44,21 @@ export function DataTable<T extends { id: number }>({ data, columns, className, 
     return data;
   }, [data, sortKey]);
 
-  const triggerSelectionChange = (selectedItems: number[]) => {
-    onSelectionChange?.(data.filter((item) => selectedItems.includes(item.id)));
+  const triggerSelectionChange = (selectedItems: (string | number)[]) => {
+    onSelectionChange?.(data.filter((item) => item.id && selectedItems.includes(item.id)));
   }
   useEffect(() => {
     triggerSelectionChange(selectedItems);
   }, [selectedItems]);
 
-  const toggleSelection = (id: number) => {
+  const toggleSelection = (id?: (string | number)) => {
+    if(!id) return;
     setSelectedItems((prev) => prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]);
   };
 
   const handleSelectAll = (doSelect: boolean) => {
     if(doSelect) {
-      setSelectedItems(data.map((item) => item.id));
+      setSelectedItems(data.map((item, i) => item.id || i));
     } else {
       setSelectedItems([]);
     }
@@ -73,7 +74,7 @@ export function DataTable<T extends { id: number }>({ data, columns, className, 
           {sortedItems.map((item, rowIndex) => (
             <TableRow key={rowIndex}>
               <TableCell>
-                <CheckBox name={`select-${item.id}`} checked={selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
+                <CheckBox name={`select-${item.id}`} checked={!!item.id && selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
               </TableCell>
               {columns.map((column) => (
                 <TableCell key={String(column.key)}>
