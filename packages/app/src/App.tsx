@@ -19,7 +19,7 @@ const sampleData: User[] = [
 
 const columns: Column<User>[] = [
   { key: "name", label: "Name", sortable: true },
-  { key: "email", label: "Email" },
+  { key: "email", label: "Email", align: "left" },
   { key: "age", label: "Age", sortable: true },
 ];
 

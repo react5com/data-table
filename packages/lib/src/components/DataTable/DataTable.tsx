@@ -78,7 +78,7 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
                 <CheckBox name={`select-${item.id}`} checked={!!item.id && selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
               </TableCell>}
               {columns.map((column) => (
-                <TableCell key={String(column.key)}>
+                <TableCell align={column.align} key={String(column.key)}>
                   {column.render ? column.render(item) : (item[column.key] as ReactNode)}
                 </TableCell>
               ))}

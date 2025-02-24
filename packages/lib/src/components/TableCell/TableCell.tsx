@@ -1,6 +1,7 @@
 import "./TableCell.scss";
 import type { ReactNode } from "react";
 import { bem } from "../../utils/bem";
+import clsx from "clsx";
 
 export type Column<T> = {
   key: keyof T;
@@ -8,13 +9,15 @@ export type Column<T> = {
   sortable?: boolean;
   render?: (item: T) => ReactNode;
   sortDirection?: "asc" | "desc" | null;
+  align?: "left" | "center" | "right";
 };
 
 export type TableCellProps = {
+  align?: "left" | "center" | "right";
   children: ReactNode;
 };
 
 const b = bem("table-cell");
-export function TableCell({ children }: TableCellProps) {
-  return <td className={b()}>{children}</td>;
+export function TableCell({ children, align }: TableCellProps) {
+  return <td className={clsx(b(align || "center"))}>{children}</td>;
 }
