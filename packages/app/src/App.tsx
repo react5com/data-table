@@ -15,6 +15,18 @@ const sampleData: User[] = [
   { id: 1, name: "Alice Johnson", email: "alice@example.com", age: 28 },
   { id: 2, name: "Bob Smith", email: "bob@example.com", age: 34 },
   { id: 3, name: "Charlie Brown", email: "charlie@example.com", age: 22 },
+  { id: 4, name: "Alice Johnson", email: "alice@example.com", age: 28 },
+  { id: 5, name: "Bob Smith", email: "bob@example.com", age: 34 },
+  { id: 6, name: "Charlie Brown", email: "charlie@example.com", age: 22 },
+  { id: 7, name: "Alice Johnson", email: "alice@example.com", age: 28 },
+  { id: 8, name: "Bob Smith", email: "bob@example.com", age: 34 },
+  { id: 9, name: "Charlie Brown", email: "charlie@example.com", age: 22 },
+  { id: 10, name: "Alice Johnson", email: "alice@example.com", age: 28 },
+  { id: 11, name: "Bob Smith", email: "bob@example.com", age: 34 },
+  { id: 12, name: "Charlie Brown", email: "charlie@example.com", age: 22 },
+  { id: 13, name: "Alice Johnson", email: "alice@example.com", age: 28 },
+  { id: 14, name: "Bob Smith", email: "bob@example.com", age: 34 },
+  { id: 15, name: "Charlie Brown", email: "charlie@example.com", age: 22 },
 ];
 
 const columns: Column<User>[] = [
@@ -35,12 +47,12 @@ function App() {
       <h1>{t('app.title')}</h1>
       <h2>With selection</h2>
       <div className='table-container'>
-        <DataTable selectable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
+        <DataTable pageSize={5} selectable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>
 
       <h2>Without selection</h2>
       <div className='table-container'>
-        <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
+        <DataTable noPaging data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>
     </>
   )

@@ -7,7 +7,7 @@ import { ISortKey, TableHeader } from "../TableHeader";
 import { TableRow } from "../TableRow";
 import clsx from "clsx";
 import { CheckBox } from "../CheckBox";
-import { type ReactNode, useEffect, useMemo, useState } from "react";
+import { ChangeEvent, type ReactNode, useEffect, useMemo, useState } from "react";
 
 function sortData<T>(data: T[], key: keyof T, isAscending: boolean): T[] {
   return [...data].sort((a, b) => {
@@ -29,11 +29,14 @@ type DataTableProps<T> = {
   columns: Column<T>[];
   className?: string;
   selectable?: boolean;
+  pageSize?: number;
+  noPaging?: boolean;
   onSelectionChange?: (selectedItems: T[]) => void;
 };
 
 const b = bem("data-table");
-export function DataTable<T extends { id?: string | number }>({ data, columns, className, selectable=false, onSelectionChange }: DataTableProps<T>) {
+export function DataTable<T extends { id?: string | number }>({ 
+  data, columns, className, selectable=false, onSelectionChange, pageSize = 10, noPaging = false }: DataTableProps<T>) {
   const { t } = useTranslation(translationNs);
   const [selectedItems, setSelectedItems] = useState<(string | number)[]>([]);
   const [sortKey, setSortKey] = useState<ISortKey<T> | null>(null);
@@ -45,12 +48,29 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
     return data;
   }, [data, sortKey]);
 
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = useMemo(() => (Math.ceil(data.length / pageSize)), [data, pageSize]);
+  const paginatedData = useMemo<T[]>(() => (noPaging ? sortedItems : sortedItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)), 
+    [sortedItems, currentPage, pageSize]);
+
+  const handlePageChange = (newPage: number) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+    }
+  };
+
   const triggerSelectionChange = (selectedItems: (string | number)[]) => {
     onSelectionChange?.(data.filter((item) => item.id && selectedItems.includes(item.id)));
   }
   useEffect(() => {
+    // remove selection from elements outside of the current page
+    setSelectedItems((prev) => prev.filter((id) => paginatedData.find(item => item.id === id)));
+  }, [paginatedData]);
+  useEffect(() => {
     triggerSelectionChange(selectedItems);
   }, [selectedItems]);
+
+  const allSelected = useMemo(() => (selectedItems.length === paginatedData.length), [selectedItems, paginatedData])
 
   const toggleSelection = (id?: (string | number)) => {
     if(!id) return;
@@ -59,7 +79,7 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
 
   const handleSelectAll = (doSelect: boolean) => {
     if(doSelect) {
-      setSelectedItems(data.map((item, i) => item.id || i));
+      setSelectedItems(paginatedData.map((item, i) => item.id || i));
     } else {
       setSelectedItems([]);
     }
@@ -67,12 +87,19 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
   const handleSort = (key: keyof T) => {
     setSortKey(prev => prev?.key === key ? {key, isAscending: !prev.isAscending} : {key, isAscending: true});
   }
+  const handleCurrentPageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const newPage = parseInt(event.target.value, 10);
+    if (!isNaN(newPage) && newPage > 0 && newPage <= totalPages) {
+      handlePageChange(newPage);
+    }
+  };
+  
   return (
     <div className={clsx(b(), className)}>
       <table className={b("table")}>
-        <TableHeader selectable={selectable} columns={columns} onSort={handleSort} onSelectAll={handleSelectAll} sortKey={sortKey} />
+        <TableHeader selectable={selectable} columns={columns} onSort={handleSort} allSelected={allSelected} onSelectAll={handleSelectAll} sortKey={sortKey} />
         <tbody>
-          {sortedItems.map((item, rowIndex) => (
+          {paginatedData.map((item, rowIndex) => (
             <TableRow key={rowIndex}>
               {selectable && <TableCell>
                 <CheckBox name={`select-${item.id}`} checked={!!item.id && selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
@@ -86,6 +113,11 @@ export function DataTable<T extends { id?: string | number }>({ data, columns, c
           ))}
         </tbody>
       </table>
+      {!noPaging && <div className={b("pagination")}>
+        <button className={b("page-next-button")} onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 1}>{"<"}</button>
+        <span className={b("page-of-text")}>{t("page")} <input type="number" className={b("page-input")} value={currentPage} onChange={handleCurrentPageChange} min={1} max={totalPages} /> {t("of")} {totalPages}</span>
+        <button className={b("page-next-button")} onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages}>{">"}</button>
+      </div>}
     </div>
   )
 }

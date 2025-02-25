@@ -23,10 +23,11 @@ type TableHeaderProps<T> = {
   onSelectAll?: (doSelect: boolean) => void;
   sortKey?: ISortKey<T> | null;
   selectable?: boolean;
+  allSelected?: boolean;
 };
 
 const b = bem("table-header");
-export function TableHeader<T>({ columns, onSort, onSelectAll, sortKey, selectable }: TableHeaderProps<T>) {
+export function TableHeader<T>({ columns, onSort, onSelectAll, sortKey, selectable, allSelected }: TableHeaderProps<T>) {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     onSelectAll?.(e.target.checked);
   }
@@ -34,7 +35,7 @@ export function TableHeader<T>({ columns, onSort, onSelectAll, sortKey, selectab
     <thead>
       <tr className={b()}>
         {selectable && <th className={b("checkbox-cell")}>
-          <CheckBox name="select-all" onChange={handleChange} />
+          <CheckBox checked={allSelected} name="select-all" onChange={handleChange} />
         </th>}
         {columns.map((column) => (
           <th

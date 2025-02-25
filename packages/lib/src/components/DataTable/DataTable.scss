@@ -3,4 +3,31 @@
     width: 100%;
     border-collapse: collapse;
   }
+  &__pagination {
+    text-align: center;
+    margin: 0.5rem;
+  }
+  &__page-of-text {
+    color: $page_text_color;
+  }
+  &__page-input {
+    border: $border_size solid $primary_border_color;
+    border-radius: $border_radius;
+    color: $control_text_color;
+    background-color: $control_bg_color;
+    width: 2.5em;
+  }
+  &__page-input:focus {
+    outline: none;
+    border: none;
+  }
+  &__page-next-button {
+    border: none;
+    background-color: transparent;
+    padding: 0 8px;
+    cursor: pointer;
+    &:disabled {
+      cursor: default;
+    }
+  }
 }
