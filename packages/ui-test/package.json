@@ -4,8 +4,9 @@
   "main": "index.js",
   "scripts": {
     "build": "echo \"build\"",
-    "test": "playwright test",
-    "uitest": "playwright test --ui"
+    "test": "echo \"test\"",
+    "uitest": "playwright test",
+    "dev:test": "playwright test --ui"
   },
   "keywords": [],
   "author": "",

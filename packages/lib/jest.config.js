@@ -4,10 +4,11 @@ export default {
   passWithNoTests: true,
   testEnvironment: 'jsdom',
   moduleNameMapper:{
-    "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    "\\.(css|less|scss|sass|svg)$": "identity-obj-proxy"
   },
   testPathIgnorePatterns: [
     "/build/",
     "/dist/"
   ],
+  setupFilesAfterEnv: ['./src/test/setupTests.ts'],
 };

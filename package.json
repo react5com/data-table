@@ -28,7 +28,8 @@
     "dev": "npm-run-all --parallel dev:*",
     "dev:lib": "npm --workspace @react5/lib run dev",
     "dev:app": "npm --workspace @react5/app run dev",
-    "uitest": "npm --workspace ui-test run uitest"
+    "uitest": "npm --workspace ui-test run uitest",
+    "storybook": "npm --workspace @react5/lib run storybook"
   },
   "peerDependencies": {
     "react": ">=18",
