@@ -1,6 +1,6 @@
 {
   "name": "@react5/data-table",
-  "version": "0.4.11",
+  "version": "0.4.12",
   "description": "A template of a React UI library with a test app. It uses a monorepo structure.",
   "homepage": "https://github.com/react5com/data-table#readme",
   "bugs": {
