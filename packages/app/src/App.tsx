@@ -54,6 +54,11 @@ function App() {
       <div className='table-container'>
         <DataTable noPaging data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>
+
+      <h2>With sorting</h2>
+      <div className='table-container'>
+        <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
+      </div>
     </>
   )
 }
