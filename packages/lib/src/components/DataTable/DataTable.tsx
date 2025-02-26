@@ -8,6 +8,7 @@ import { TableRow } from "../TableRow";
 import clsx from "clsx";
 import { CheckBox } from "../CheckBox";
 import { ChangeEvent, type ReactNode, useEffect, useMemo, useState } from "react";
+import { NoData } from "../NoData";
 
 function sortData<T>(data: T[], key: keyof T, isAscending: boolean): T[] {
   return [...data].sort((a, b) => {
@@ -99,7 +100,8 @@ export function DataTable<T extends { id?: string | number }>({
       <table className={b("table")}>
         <TableHeader selectable={selectable} columns={columns} onSort={handleSort} allSelected={allSelected} onSelectAll={handleSelectAll} sortKey={sortKey} />
         <tbody>
-          {paginatedData.map((item, rowIndex) => (
+          {paginatedData?.length > 0 
+          ? paginatedData.map((item, rowIndex) => (
             <TableRow key={rowIndex}>
               {selectable && <TableCell>
                 <CheckBox name={`select-${item.id}`} checked={!!item.id && selectedItems.includes(item.id)} onChange={() => toggleSelection(item.id)}/>
@@ -110,7 +112,9 @@ export function DataTable<T extends { id?: string | number }>({
                 </TableCell>
               ))}
             </TableRow>
-          ))}
+          ))
+          : <NoData columnCount={columns.length}/>
+        }
         </tbody>
       </table>
       {!noPaging && <div className={b("pagination")}>

@@ -15,9 +15,10 @@ export type Column<T> = {
 export type TableCellProps = {
   align?: "left" | "center" | "right";
   children: ReactNode;
+  colSpan?: number;
 };
 
 const b = bem("table-cell");
-export function TableCell({ children, align }: TableCellProps) {
-  return <td className={clsx(b(align || "center"))}>{children}</td>;
+export function TableCell({ children, align, colSpan }: TableCellProps) {
+  return <td className={clsx(b(align || "center"))} colSpan={colSpan}>{children}</td>;
 }

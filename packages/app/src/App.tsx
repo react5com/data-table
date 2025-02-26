@@ -59,6 +59,11 @@ function App() {
       <div className='table-container'>
         <DataTable data={data} columns={columns} onSelectionChange={handleSelectionChange} />
       </div>
+
+      <h2>With no data</h2>
+      <div className='table-container'>
+        <DataTable data={[]} columns={columns} onSelectionChange={handleSelectionChange} />
+      </div>
     </>
   )
 }

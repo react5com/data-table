@@ -1,11 +1,11 @@
 
-import { fireEvent, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { DataTable } from './DataTable';
 import { Column } from '../TableCell';
 import React from 'react';
 import userEvent from '@testing-library/user-event';
-import { CheckBox} from '../CheckBox';
+import { CheckBox } from '../CheckBox';
 
 interface IRecepie {
   id: number;
@@ -33,14 +33,11 @@ describe('DataTable Component', () => {
   
   });
   
- 
-
   test('render empty table', () => {
     render(<DataTable columns={columns} data={[]} />);
-    expect(screen.getByText('No data')).toBeInTheDocument();
+    expect(screen.getByText('No Data')).toBeInTheDocument();
   });
 
-  
   test('sorts data by name', async () => { // Use async for userEvent
     //const user = userEvent.setup(); // Setup userEvent
     const sampleData: IRecepie[] = [
@@ -60,7 +57,9 @@ describe('DataTable Component', () => {
   
     // Click on the "Name" heading to sort in ascending order
     const nameHeader = screen.getByRole('columnheader', { name: 'Name' }); 
-    await nameHeader.click(); // Use await with userEvent
+    await act(async () => {
+      await userEvent.click(nameHeader);
+    });
   
     // Check the ascending sort
     cells = screen.getAllByRole('cell');
@@ -70,7 +69,9 @@ describe('DataTable Component', () => {
     expect(sortedAsc[2]).toHaveTextContent('Ff');
   
     // Click again to sort in descending order
-    await nameHeader.click();
+    await act(async () => {
+      await userEvent.click(nameHeader);
+    });
   
     // Сheck the descending sorting
     cells = screen.getAllByRole('cell');
@@ -79,8 +80,6 @@ describe('DataTable Component', () => {
     expect(sortedDesc[1]).toHaveTextContent('Cc');
     expect(sortedDesc[2]).toHaveTextContent('Bb');
   });
-
- 
 
   test('Correct pagination', () => {
     const sampleData = Array.from({ length: 15 }, (_, index) => ({

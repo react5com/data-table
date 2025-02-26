@@ -4,7 +4,8 @@ export default {
   passWithNoTests: true,
   testEnvironment: 'jsdom',
   moduleNameMapper:{
-    "\\.(css|less|scss|sass|svg)$": "identity-obj-proxy"
+    "\\.(css|less|scss|sass)$": "identity-obj-proxy",
+    '\\.svg$': '../../__mocks__/svgrMock.js'
   },
   testPathIgnorePatterns: [
     "/build/",
