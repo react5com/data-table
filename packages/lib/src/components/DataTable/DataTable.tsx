@@ -26,7 +26,7 @@ function sortData<T>(data: T[], key: keyof T, isAscending: boolean): T[] {
 }
 
 type DataTableProps<T> = {
-  data: T[];
+  data: T[] | null;
   columns: Column<T>[];
   className?: string;
   selectable?: boolean;
@@ -43,14 +43,15 @@ export function DataTable<T extends { id?: string | number }>({
   const [sortKey, setSortKey] = useState<ISortKey<T> | null>(null);
 
   const sortedItems = useMemo(() => {
-    if(sortKey?.key) {
+    if (!data) return [];
+    if (sortKey?.key) {
       return sortData(data, sortKey?.key, sortKey?.isAscending);
     }
     return data;
   }, [data, sortKey]);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const totalPages = useMemo(() => (Math.ceil(data.length / pageSize)), [data, pageSize]);
+  const totalPages = useMemo(() => (data ? Math.ceil(data.length / pageSize) : 1), [data, pageSize]);
   const paginatedData = useMemo<T[]>(() => (noPaging ? sortedItems : sortedItems.slice((currentPage - 1) * pageSize, currentPage * pageSize)), 
     [sortedItems, currentPage, pageSize]);
 
@@ -61,6 +62,7 @@ export function DataTable<T extends { id?: string | number }>({
   };
 
   const triggerSelectionChange = (selectedItems: (string | number)[]) => {
+    if (!data) return;
     onSelectionChange?.(data.filter((item) => item.id && selectedItems.includes(item.id)));
   }
   useEffect(() => {

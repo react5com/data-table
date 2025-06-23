@@ -1,6 +1,6 @@
 {
   "name": "@react5/data-table",
-  "version": "0.4.15",
+  "version": "0.4.17",
   "description": "A template of a React UI library with a test app. It uses a monorepo structure.",
   "homepage": "https://github.com/react5com/data-table#readme",
   "bugs": {
@@ -17,7 +17,7 @@
   ],
   "license": "MIT",
   "author": "React5.com",
-  "main": "packages/lib/dist/index.js",
+  "main": "packages/lib/dist/esm/index.esm.js",
   "type": "module",
   "module": "packages/lib/dist/esm/index.esm.js",
   "types": "packages/lib/dist/types/index.d.ts",
